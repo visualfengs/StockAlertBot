@@ -243,7 +243,7 @@ function main() {
 	for (const store of Object.keys(storeUrlMap)) {
 		if (SUPPORTED_STORES_DOMAINS.includes(store)) {
 			const storeFunction = new Store(store, storeFunctionMap[store]);
-			for (const url of storeUrlMap[store]) storeFunction.addItem(new Item(url));
+			//for (const url of storeUrlMap[store]) storeFunction.addItem(new Item(url));
 			storeFunctions.push(storeFunction);
 		} else {
 			// If store is not supported

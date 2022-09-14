@@ -1,8 +1,9 @@
 import { toFile } from "./utils/log.js";
 import { fetchPage } from "./utils/fetch.js";
+import { toConsole } from "./utils/log.js";
 
 export default class Item {
-	constructor(url) {
+	constructor(url, row) {
 		this.url = url;
 		this.notificationSent = false;
 		this.shouldSendNotification = true;
@@ -11,7 +12,9 @@ export default class Item {
 			title: undefined,
 			inventory: undefined,
 			image: undefined,
+			price: undefined
 		};
+		this.row = row;
 	}
 
 	/*
@@ -49,16 +52,23 @@ export default class Item {
 	*/
 	async extractInformation(store, storeFunction) {
 		const info = await storeFunction(this.html);
-		if (info.title && info.image && typeof info.inventory == "boolean") {
-			// Change notification status to false once item goes out of stock
-			if (this.notificationSent && !info.inventory) this.notificationSent = false;
-
-			this.shouldSendNotification = !this.info.inventory && info.inventory; // Check change in item stock
-			this.info = info;
-			return true;
-		} else if (info.error) {
+		//if (info.title && info.image && typeof info.inventory == "boolean") {
+		if (info.error) {
 			toFile(store, info.error, this);
 			return false;
+		} else if (info.inventory == false) {
+			this.info = info;
+			return true;
+		} else if (info.title && info.price) {
+			// Change notification status to false once item goes out of stock
+			/*if (this.notificationSent && !info.inventory) this.notificationSent = false;
+
+			this.shouldSendNotification = !this.info.inventory && info.inventory;*/ // Check change in item stock
+			this.info = info;
+			return true;
+		/*} else if (info.error) {
+			toFile(store, info.error, this);
+			return false;*/
 		} else {
 			toFile(store, "Unable to get information", Object.assign(this, info));
 			return false;

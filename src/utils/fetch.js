@@ -51,6 +51,8 @@ export function fetchPage(url, store, use_proxies, badProxies, retry = false, ge
 				"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
 			"accept-language": "en-US,en;q=0.9",
 			"upgrade-insecure-requests": 1,
+			cookie:
+				"session-id=130-0435613-1892309; session-id-time=2082787201l; i18n-prefs=USD; lc-main=en_US; ubid-main=133-3914694-6413801; session-token=i9/dcy1nvF7zpeWrDYp5MC+A97Qi+UQvjB3NiTHDNwSD5G6UGn8OGoIEUPTPhTm3874AN2lgZEM4mVwEkyU9Ny0ANgl6I3Q0ZPQjLRmOWG3Z/juSeKE4QdyJO33lqQm9720x+8Gy5zoDDEXJ7ENvQ72XpiaSdyOWWKWiaMhWiibLNfsbhevSIEqMJkCaw0qzUTl1pJscQnOW1CQOj1wfHgNnfAvJ/yjU; csm-hit=adb:adblk_no&t:1662905006347&tb:WC732D1VBW2FNB0FZTV3+s-7Z2FK4NKVEG2FR91ZXJ6|1662905006347",
 		},
 		options = {
 			headers,
