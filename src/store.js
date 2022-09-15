@@ -52,9 +52,10 @@ export default class Store {
 				if (line == 0) {
 					writerStream.write(row + "\r\n");
 				} else {
-					let arr = row.toString().split(",");
-					if (arr.length == 27 && arr[26].trim()) {
-						this.addItem(new Item("https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=" + arr[26], row));
+					row = row.toString().trim();
+					if (row.length >= 10 && row.substr(row.length - 10, 2) == "B0") {
+						let asin = row.substr(row.length - 10, 10);
+						this.addItem(new Item("https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=" + asin, row));
 					} else {
 						writerStream.write(row + "\r\n");
 					}
@@ -143,12 +144,13 @@ export default class Store {
 							writerStream.write(str);
 						} else if (item.info.price) {
 							count += 1;
-							let str = item.info.price.toString().substr(1);
+							let strPrice = item.info.price.toString().substr(1);
+							let strTitle = item.info.title.toString();
 							toConsole(
 								"info",
-								`${str}`
+								`${strPrice}`
 							);
-							str = item.row + "," + str + "\r\n";
+							let str = item.row + "," + strPrice + "," + '"' + strTitle + '"' + "\r\n";
 							writerStream.write(str);
 						}
 					}

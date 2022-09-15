@@ -35,8 +35,7 @@ export default function amazon(html) {
 			inventory = false;
 		} else {
 			inventory = true;
-			//title = $(TITLE_SELECTOR).text()?.trim();
-			title = "title";
+			title = $(TITLE_SELECTOR).text()?.trim();
 			price = $(PRICE_SELECTOR).text()?.trim();
 		}
 
