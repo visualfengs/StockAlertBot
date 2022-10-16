@@ -147,12 +147,16 @@ export default class Store {
 						} else if (item.info.price) {
 							count += 1;
 							let strPrice = item.info.price.toString().substr(1);
-							let strTitle = item.info.title.toString();
 							toConsole(
 								"info",
 								`${strPrice}`
 							);
-							let str = item.row + "," + strPrice + "," + '"' + strTitle + '"' + "\r\n";
+							let str = item.row + "," + strPrice;
+							if (item.info.title) {
+								let strTitle = item.info.title.toString();
+								str = str + "," + '"' + strTitle + '"';
+							}
+							str = str + "\r\n";
 							writerStream.write(str);
 						}
 					}

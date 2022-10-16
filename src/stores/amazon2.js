@@ -13,8 +13,7 @@ export default function amazon(html) {
 
 		////const $ = cheerio.load(html);
 		//const title = $(TITLE_SELECTOR).text()?.trim();
-		////let title = undefined;
-		let title = 'NA'; //// sold by amazon.com
+		let title = undefined;
 		//let image = $(IMAGE_SELECTOR).attr("data-old-hires");
 		//let inventory = $(INVENTORY_SELECTOR).attr("value");
 		////let inventory = $(INVENTORY_SELECTOR).text()?.trim();
