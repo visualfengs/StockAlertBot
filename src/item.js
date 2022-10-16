@@ -1,6 +1,5 @@
 import { toFile } from "./utils/log.js";
 import { fetchPage } from "./utils/fetch.js";
-import { toConsole } from "./utils/log.js";
 
 export default class Item {
 	constructor(url, row) {

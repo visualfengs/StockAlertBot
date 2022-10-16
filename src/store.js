@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import { toConsole } from "./utils/log.js";
 import getMs from "./utils/interval-value.js";
-import sendAlerts from "./utils/notification/alerts.js";
 import { INTERVAL, STORE_INTERVALS, SUPPORTED_PROXY_DOMAINS, TIME_BETWEEN_CHECKS } from "./main.js";
 import fs from "fs";
 import path from "path";
@@ -56,6 +55,9 @@ export default class Store {
 					if (row.length >= 10 && row.substr(row.length - 10, 2) == "B0") {
 						let asin = row.substr(row.length - 10, 10);
 						this.addItem(new Item("https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=" + asin, row));
+					} else if (row.length >= 10 && row.substr(row.length - 10, 1) == "1") {
+						let itemid = row.substr(row.length - 10, 10);
+						this.addItem(new Item("https://www.walmart.com/ip/" + itemid, row));
 					} else {
 						writerStream.write(row + "\r\n");
 					}
@@ -67,7 +69,7 @@ export default class Store {
 			toConsole("error", `${err.message}`);
 		});
 		parser.on("end", () => {
-			toConsole("info", `Total: ${line - 1}, ASIN: ${this.items.length}`);
+			toConsole("info", `Total: ${line - 1}, Item: ${this.items.length}`);
 			if (this.items.length == 0) {
 				toConsole("error", "Cannot start montior: no items added!");
 				return;
@@ -133,32 +135,54 @@ export default class Store {
 							);
 							item.notificationSent = true;
 						}*/
-						if (item.info.inventory == false) {
-							count += 1;
-							let str = "Out-of-stock";
-							toConsole(
-								"info",
-								str
-							);
-							str = item.row + "," + str + "\r\n";
-							writerStream.write(str);
-						} else {
-							count += 1;
-							let str = item.row;
+						if (this.name == "amazon") {
+							if (item.info.inventory == false) {
+								count += 1;
+								let str = "Out-of-stock";
+								toConsole(
+									"info",
+									str
+								);
+								str = item.row + "," + str + "\r\n";
+								writerStream.write(str);
+							} else if (item.info.inventory == true) {
+								count += 1;
+								let str = item.row;
+								if (item.info.price) {
+									let strPrice = item.info.price.toString().substr(1);
+									toConsole(
+										"info",
+										`${strPrice}`
+									);
+									str = str + "," + strPrice;
+								}
+								if (item.info.title) {
+									let strTitle = item.info.title.toString();
+									str = str + "," + '"' + strTitle + '"';
+								}
+								str = str + "\r\n";
+								writerStream.write(str);
+							}
+						} else if (this.name == "walmart") {
 							if (item.info.price) {
+								count += 1;
 								let strPrice = item.info.price.toString().substr(1);
 								toConsole(
 									"info",
 									`${strPrice}`
 								);
-								str = str + "," + strPrice;
+								let str = item.row + "," + strPrice;
+								if (item.info.inventory == false) {
+									let str2 = "Out of stock";
+									toConsole(
+										"info",
+										str2
+									);
+									str = str + "," + str2
+								}
+								str = str + "\r\n";
+								writerStream.write(str);
 							}
-							if (item.info.title) {
-								let strTitle = item.info.title.toString();
-								str = str + "," + '"' + strTitle + '"';
-							}
-							str = str + "\r\n";
-							writerStream.write(str);
 						}
 					}
 

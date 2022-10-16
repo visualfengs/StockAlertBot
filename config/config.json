@@ -1,9 +1,6 @@
 {
     "URLS": [
-        "https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B0915BBQZ6",
-        "https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B08KGTFV1F",
-        "https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B07SDH9S8G",
-        "https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B07V5R352Z"
+        "https://www.amazon.com"
     ],
     "INTERVAL": {
         "unit": "seconds",
@@ -17,7 +14,7 @@
     "OPEN_URL": true,
     "DESKTOP": true,
     "AMAZON_MERCHANT_ID": "None",
-    "TARGET_ZIP_CODE": "90024",
+    "TARGET_ZIP_CODE": "10001",
     "TARGET_KEY": "ff457966e64d5e877fdbad070f276d18ecec4a01",
     "WEBHOOK_URLS": [],
     "PROXIES": false,

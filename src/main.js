@@ -1,6 +1,5 @@
 import fs from "fs";
 import chalk from "chalk";
-import Item from "./item.js";
 import Store from "./store.js";
 import * as dotenv from "dotenv";
 import * as log from "./utils/log.js";
