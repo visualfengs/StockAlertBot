@@ -59,7 +59,7 @@ export default class Item {
 		} else if (info.inventory == false) {
 			this.info = info;
 			return true;
-		} else if (info.price) {
+		} else if (info.inventory == true) {
 			// Change notification status to false once item goes out of stock
 			/*if (this.notificationSent && !info.inventory) this.notificationSent = false;
 
