@@ -144,14 +144,17 @@ export default class Store {
 							);
 							str = item.row + "," + str + "\r\n";
 							writerStream.write(str);
-						} else if (item.info.price) {
+						} else {
 							count += 1;
-							let strPrice = item.info.price.toString().substr(1);
-							toConsole(
-								"info",
-								`${strPrice}`
-							);
-							let str = item.row + "," + strPrice;
+							let str = item.row;
+							if (item.info.price) {
+								let strPrice = item.info.price.toString().substr(1);
+								toConsole(
+									"info",
+									`${strPrice}`
+								);
+								str = str + "," + strPrice;
+							}
 							if (item.info.title) {
 								let strTitle = item.info.title.toString();
 								str = str + "," + '"' + strTitle + '"';

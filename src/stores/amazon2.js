@@ -18,8 +18,7 @@ export default function amazon(html) {
 		//let inventory = $(INVENTORY_SELECTOR).attr("value");
 		////let inventory = $(INVENTORY_SELECTOR).text()?.trim();
 		let inventory = html.indexOf('<span class="a-size-small a-color-secondary"> Ships from and sold by Amazon.com </span>') == -1; //// sold by amazon.com
-		////let price = undefined;
-		let price = '$NA'; //// sold by amazon.com
+		let price = undefined;
 
 		/*if (!image) {
 			image = $(IMAGE_SELECTOR).attr("src");
