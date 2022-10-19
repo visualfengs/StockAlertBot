@@ -7,14 +7,16 @@ export default function walmart(html) {
 		const IMAGE_SELECTOR = ".self-center > img";
 		const IMAGE_SELECTOR_BACKUP = 'li[data-slide="0"] img';
 		const INVENTORY_SELECTOR =
-			//'div[data-testid="add-to-cart-section"] span[style="visibility:visible"]';
-			'div.b.gray.pr3:first';
+			'div[data-testid="add-to-cart-section"] span[style="visibility:visible"]';
+		const INVENTORY_SELECTOR_UNAVAILABLE = 'div.b.gray.pr3:first';
 		const SELLER_SELECTOR = 'a[data-testid="seller-name-link"]';
 		const PRICE_SELECTOR = 'div[data-testid="add-to-cart-section"] span[itemprop="price"]';
 
 		const $ = cheerio.load(html);
 		//let title, image, seller, inventory;
 		let title = undefined;
+		let inventory = undefined;
+		let price = undefined;
 
 		// Script method
 		/*const script = $(SCRIPT_SELECTOR).html()?.trim();
@@ -39,13 +41,13 @@ export default function walmart(html) {
 			inventory = $(INVENTORY_SELECTOR).text()?.trim();
 			inventory = inventory == "Add to cart" && seller == "";
 		}*/
-		let inventory = $(INVENTORY_SELECTOR).text()?.trim();
+		inventory = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
 		if (inventory == "Out of stock") {
 			inventory = false;
 		} else {
 			inventory = true;
 		}
-		let price = $(PRICE_SELECTOR).text()?.trim();
+		price = $(PRICE_SELECTOR).text()?.trim();
 
 		//return { title, image, inventory };
 		return { inventory, title, price };

@@ -139,13 +139,15 @@ export default class Store {
 						if (this.name == "amazon") {
 							if (item.info.inventory == false) {
 								count += 1;
-								////let str = "Out-of-stock";
-								let str = "Sold by amazon.com"; //// sold by amazon.com
+								let str = item.row;
+								////let tip = item.info.title;
+								let tip = "Sold by amazon.com"; //// sold by amazon.com
 								toConsole(
 									"info",
-									str
+									tip
 								);
-								str = item.row + "," + str + "\r\n";
+								str = str + "," + tip;
+								str = str + "\r\n";
 								writerStream.write(str);
 							} else if (item.info.inventory == true) {
 								count += 1;
@@ -154,7 +156,7 @@ export default class Store {
 									let strPrice = item.info.price.toString().substr(1);
 									toConsole(
 										"info",
-										`${strPrice}`
+										strPrice
 									);
 									str = str + "," + strPrice;
 								}
@@ -168,19 +170,20 @@ export default class Store {
 						} else if (this.name == "walmart") {
 							if (item.info.price) {
 								count += 1;
+								let str = item.row;
 								let strPrice = item.info.price.toString().substr(1);
 								toConsole(
 									"info",
-									`${strPrice}`
+									strPrice
 								);
-								let str = item.row + "," + strPrice;
+								str = str + "," + strPrice;
 								if (item.info.inventory == false) {
-									let str2 = "Out of stock";
+									let tip = "Out of stock";
 									toConsole(
 										"info",
-										str2
+										tip
 									);
-									str = str + "," + str2
+									str = str + "," + tip;
 								}
 								str = str + "\r\n";
 								writerStream.write(str);

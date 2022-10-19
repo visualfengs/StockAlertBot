@@ -7,20 +7,21 @@ export default function amazon(html) {
 		//const IMAGE_SELECTOR = "#landingImage";
 		const IMAGE_SELECTOR = "img.sc-product-image:first";
 		const IMAGE_BOOK_SELECTOR = "#img-canvas > img";
-		//const INVENTORY_SELECTOR = "#add-to-cart-button";
-		const INVENTORY_SELECTOR = "h5.a-spacing-mini.a-spacing-top-base:first";
+		const INVENTORY_SELECTOR = "#add-to-cart-button";
+		const INVENTORY_SELECTOR_CARTISEMPTY = "h1.a-spacing-mini.a-spacing-top-base:first";
+		const INVENTORY_SELECTOR_UNAVAILABLE = "h5.a-spacing-mini.a-spacing-top-base:first";
 		const PRICE_SELECTOR = "span.sc-product-price:first";
 
 		////const $ = cheerio.load(html);
-		//const title = $(TITLE_SELECTOR).text()?.trim();
 		let title = undefined;
-		//let image = $(IMAGE_SELECTOR).attr("data-old-hires");
-		//let inventory = $(INVENTORY_SELECTOR).attr("value");
-		////let inventory = $(INVENTORY_SELECTOR).text()?.trim();
-		let inventory = html.indexOf('<span class="a-size-small a-color-secondary"> Ships from and sold by Amazon.com </span>') == -1; //// sold by amazon.com
+		let inventory = undefined;
 		let price = undefined;
 
-		/*if (!image) {
+		/*const title = $(TITLE_SELECTOR).text()?.trim();
+		let image = $(IMAGE_SELECTOR).attr("data-old-hires");
+		let inventory = $(INVENTORY_SELECTOR).attr("value");
+		
+		if (!image) {
 			image = $(IMAGE_SELECTOR).attr("src");
 			if (!image) {
 				image = $(IMAGE_BOOK_SELECTOR).attr("src");
@@ -33,13 +34,21 @@ export default function amazon(html) {
 			inventory = false;
 		}*/
 		////
-		/*if (inventory == "These items are currently unavailable:") {
+		/*inventory = $(INVENTORY_SELECTOR_CARTISEMPTY).text()?.trim();
+		if (inventory == "Cart is empty") {
 			inventory = false;
+			let unavailable = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
+			if (unavailable == "These items are currently unavailable:") {
+				title = "Out-of-stock";
+			} else {
+				title = "Not-found";
+			}
 		} else {
 			inventory = true;
 			//title = $(TITLE_SELECTOR).text()?.trim();
 			price = $(PRICE_SELECTOR).text()?.trim();
 		}*/
+		inventory = html.indexOf('<span class="a-size-small a-color-secondary"> Ships from and sold by Amazon.com </span>') == -1; //// sold by amazon.com
 
 		//return { title, image, inventory };
 		return { inventory, title, price };

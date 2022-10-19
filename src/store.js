@@ -32,8 +32,8 @@ export default class Store {
 	*/
 	startMonitor() {
 		const __dirname = path.resolve();
-		const csvInputFilePath = path.join(__dirname, "manage_items_walmart.csv");
-		const csvOutputFilePath = path.join(__dirname, "manage_items_walmart-CHECKRESULT.csv");
+		const csvInputFilePath = path.join(__dirname, "manage_items.csv");
+		const csvOutputFilePath = path.join(__dirname, "manage_items-CHECKRESULT.csv");
 
 		var writerStream = fs.createWriteStream(csvOutputFilePath);
 		writerStream.on("error", (err) => {
@@ -89,7 +89,7 @@ export default class Store {
 		let count = 0;
 		while (count < length) {
 			for (const [index, item] of this.items.entries()) {
-				if (!(item.info.inventory == false || item.info.price)) {
+				if (!(item.info.inventory == false || item.info.inventory == true )) {
 					if (item.info.title)
 						toConsole(
 							"check",
@@ -138,12 +138,14 @@ export default class Store {
 						if (this.name == "amazon") {
 							if (item.info.inventory == false) {
 								count += 1;
-								let str = "Out-of-stock";
+								let str = item.row;
+								let tip = item.info.title;
 								toConsole(
 									"info",
-									str
+									tip
 								);
-								str = item.row + "," + str + "\r\n";
+								str = str + "," + tip;
+								str = str + "\r\n";
 								writerStream.write(str);
 							} else if (item.info.inventory == true) {
 								count += 1;
@@ -152,7 +154,7 @@ export default class Store {
 									let strPrice = item.info.price.toString().substr(1);
 									toConsole(
 										"info",
-										`${strPrice}`
+										strPrice
 									);
 									str = str + "," + strPrice;
 								}
@@ -166,19 +168,20 @@ export default class Store {
 						} else if (this.name == "walmart") {
 							if (item.info.price) {
 								count += 1;
+								let str = item.row;
 								let strPrice = item.info.price.toString().substr(1);
 								toConsole(
 									"info",
-									`${strPrice}`
+									strPrice
 								);
-								let str = item.row + "," + strPrice;
+								str = str + "," + strPrice;
 								if (item.info.inventory == false) {
-									let str2 = "Out of stock";
+									let tip = "Out of stock";
 									toConsole(
 										"info",
-										str2
+										tip
 									);
-									str = str + "," + str2
+									str = str + "," + tip;
 								}
 								str = str + "\r\n";
 								writerStream.write(str);
