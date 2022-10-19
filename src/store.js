@@ -166,17 +166,19 @@ export default class Store {
 								writerStream.write(str);
 							}
 						} else if (this.name == "walmart") {
-							if (item.info.price) {
+							if (item.info.inventory == false || item.info.inventory == true) {
 								count += 1;
 								let str = item.row;
-								let strPrice = item.info.price.toString().substr(1);
-								toConsole(
-									"info",
-									strPrice
-								);
-								str = str + "," + strPrice;
+								if (item.info.price) {
+									let strPrice = item.info.price.toString().substr(1);
+									toConsole(
+										"info",
+										strPrice
+									);
+									str = str + "," + strPrice;
+								}
 								if (item.info.inventory == false) {
-									let tip = "Out of stock";
+									let tip = item.info.title;
 									toConsole(
 										"info",
 										tip

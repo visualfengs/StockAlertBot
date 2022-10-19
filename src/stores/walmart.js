@@ -41,13 +41,19 @@ export default function walmart(html) {
 			inventory = $(INVENTORY_SELECTOR).text()?.trim();
 			inventory = inventory == "Add to cart" && seller == "";
 		}*/
-		inventory = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
-		if (inventory == "Out of stock") {
+		if (html == "404") {
 			inventory = false;
+			title = "Not found";
 		} else {
-			inventory = true;
+			inventory = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
+			if (inventory == "Out of stock") {
+				inventory = false;
+				title = "Out of stock";
+			} else {
+				inventory = true;
+			}
+			price = $(PRICE_SELECTOR).text()?.trim();
 		}
-		price = $(PRICE_SELECTOR).text()?.trim();
 
 		//return { title, image, inventory };
 		return { inventory, title, price };

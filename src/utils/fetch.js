@@ -104,6 +104,13 @@ export function fetchPage(url, store, use_proxies, badProxies, retry = false, ge
 				} else {
 					throw new Error(response.status + " - " + response.statusText);
 				}
+			} else if (store == "walmart" && response && response.status == "404") {
+				// Hard code Walmart showing 404 page
+				toConsole(
+					"alert",
+					"404 redirect page at Walmart!"
+				);
+				return "404";
 			} else {
 				sourceHTML = await response.text();
 				throw new Error(response.status + " - " + response.statusText);
@@ -111,7 +118,8 @@ export function fetchPage(url, store, use_proxies, badProxies, retry = false, ge
 		})
 		.then((html) => {
 			// If request was blocked..
-			if (PROXY_BLOCKING_MESSAGES.some((message) => html.includes(message))) {
+			// Hard code Walmart showing 404 page
+			if (html != "404" && PROXY_BLOCKING_MESSAGES.some((message) => html.includes(message))) {
 				// ..via proxy, add it to bad list and retry
 				if (use_proxies && PROXIES) {
 					toConsole("info", `Proxy, ${proxy}, was blocked! Retrying...`);
@@ -137,7 +145,7 @@ export function fetchPage(url, store, use_proxies, badProxies, retry = false, ge
 				  };
 		})
 		.catch(async (error) => {
-			toConsole("error", "Error getting page for url: " + url + ". ");
+			toConsole("error", "Error getting page for url: " + url + ". " + "[" + error + "]");
 			return {
 				status: "error",
 				error,

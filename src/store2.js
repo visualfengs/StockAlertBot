@@ -140,7 +140,7 @@ export default class Store {
 							if (item.info.inventory == false) {
 								count += 1;
 								let str = item.row;
-								////let tip = item.info.title;
+								////let tip = "Out-of-stock";
 								let tip = "Sold by amazon.com"; //// sold by amazon.com
 								toConsole(
 									"info",
@@ -159,10 +159,19 @@ export default class Store {
 										strPrice
 									);
 									str = str + "," + strPrice;
-								}
-								if (item.info.title) {
-									let strTitle = item.info.title.toString();
-									str = str + "," + '"' + strTitle + '"';
+									if (item.info.title) {
+										let strTitle = item.info.title.toString();
+										str = str + "," + '"' + strTitle + '"';
+									}
+								} else {
+									if (item.info.title === "Page Not Found") {
+										let tip = "Not-found";
+										toConsole(
+											"info",
+											tip
+										);
+										str = str + "," + tip;
+									}
 								}
 								str = str + "\r\n";
 								writerStream.write(str);
