@@ -9,6 +9,7 @@ export default function walmart(html) {
 		const INVENTORY_SELECTOR =
 			'div[data-testid="add-to-cart-section"] span[style="visibility:visible"]';
 		const INVENTORY_SELECTOR_UNAVAILABLE = 'div.b.gray.pr3:first';
+		const BUTTON_SELECTOR_MORESELLER = 'button[aria-label="Compare all sellers"]';
 		const SELLER_SELECTOR = 'a[data-testid="seller-name-link"]';
 		const PRICE_SELECTOR = 'div[data-testid="add-to-cart-section"] span[itemprop="price"]';
 
@@ -45,14 +46,20 @@ export default function walmart(html) {
 			inventory = false;
 			title = "Not found";
 		} else {
-			inventory = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
-			if (inventory == "Out of stock") {
+			let button = $(BUTTON_SELECTOR_MORESELLER).text()?.trim();
+			if (button == "Compare all sellers") {
 				inventory = false;
-				title = "Out of stock";
+				title = "More seller";
 			} else {
-				inventory = true;
+				inventory = $(INVENTORY_SELECTOR_UNAVAILABLE).text()?.trim();
+				if (inventory == "Out of stock") {
+					inventory = false;
+					title = "Out of stock";
+				} else {
+					inventory = true;
+				}
+				price = $(PRICE_SELECTOR).text()?.trim();
 			}
-			price = $(PRICE_SELECTOR).text()?.trim();
 		}
 
 		//return { title, image, inventory };
