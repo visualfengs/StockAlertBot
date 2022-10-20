@@ -90,6 +90,7 @@ export default class Store {
 		let count = 0;
 		while (count < length) {
 			for (const [index, item] of this.items.entries()) {
+				////if (!((item.info.inventory == false && item.info.title) || (item.info.inventory == true && item.info.price))) {
 				if (!(item.info.inventory == false || item.info.price)) {
 					if (item.info.title)
 						toConsole(
@@ -137,10 +138,11 @@ export default class Store {
 							item.notificationSent = true;
 						}*/
 						if (this.name == "amazon") {
+							////if (item.info.inventory == false && item.info.title) {
 							if (item.info.inventory == false) {
 								count += 1;
 								let str = item.row;
-								////let tip = "Out-of-stock";
+								////let tip = item.info.title;
 								let tip = "Sold by amazon.com"; //// sold by amazon.com
 								toConsole(
 									"info",
@@ -149,7 +151,7 @@ export default class Store {
 								str = str + "," + tip;
 								str = str + "\r\n";
 								writerStream.write(str);
-							} else if (item.info.inventory == true) {
+							} else if (item.info.inventory == true && item.info.price) {
 								count += 1;
 								let str = item.row;
 								if (item.info.price) {
@@ -159,35 +161,28 @@ export default class Store {
 										strPrice
 									);
 									str = str + "," + strPrice;
-									if (item.info.title) {
-										let strTitle = item.info.title.toString();
-										str = str + "," + '"' + strTitle + '"';
-									}
-								} else {
-									if (item.info.title === "Page Not Found") {
-										let tip = "Not-found";
-										toConsole(
-											"info",
-											tip
-										);
-										str = str + "," + tip;
-									}
+								}
+								if (item.info.title) {
+									let strTitle = item.info.title.toString();
+									str = str + "," + '"' + strTitle + '"';
 								}
 								str = str + "\r\n";
 								writerStream.write(str);
 							}
 						} else if (this.name == "walmart") {
-							if (item.info.price) {
+							if ((item.info.inventory == false && item.info.title) || (item.info.inventory == true && item.info.price)) {
 								count += 1;
 								let str = item.row;
-								let strPrice = item.info.price.toString().substr(1);
-								toConsole(
-									"info",
-									strPrice
-								);
-								str = str + "," + strPrice;
+								if (item.info.price) {
+									let strPrice = item.info.price.toString().substr(1);
+									toConsole(
+										"info",
+										strPrice
+									);
+									str = str + "," + strPrice;
+								}
 								if (item.info.inventory == false) {
-									let tip = "Out of stock";
+									let tip = item.info.title;
 									toConsole(
 										"info",
 										tip

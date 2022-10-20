@@ -89,7 +89,7 @@ export default class Store {
 		let count = 0;
 		while (count < length) {
 			for (const [index, item] of this.items.entries()) {
-				if (!(item.info.inventory == false || item.info.inventory == true )) {
+				if (!((item.info.inventory == false && item.info.title) || (item.info.inventory == true && item.info.price))) {
 					if (item.info.title)
 						toConsole(
 							"check",
@@ -136,7 +136,7 @@ export default class Store {
 							item.notificationSent = true;
 						}*/
 						if (this.name == "amazon") {
-							if (item.info.inventory == false) {
+							if (item.info.inventory == false && item.info.title) {
 								count += 1;
 								let str = item.row;
 								let tip = item.info.title;
@@ -147,7 +147,7 @@ export default class Store {
 								str = str + "," + tip;
 								str = str + "\r\n";
 								writerStream.write(str);
-							} else if (item.info.inventory == true) {
+							} else if (item.info.inventory == true && item.info.price) {
 								count += 1;
 								let str = item.row;
 								if (item.info.price) {
@@ -166,7 +166,7 @@ export default class Store {
 								writerStream.write(str);
 							}
 						} else if (this.name == "walmart") {
-							if (item.info.inventory == false || item.info.inventory == true) {
+							if ((item.info.inventory == false && item.info.title) || (item.info.inventory == true && item.info.price)) {
 								count += 1;
 								let str = item.row;
 								if (item.info.price) {
