@@ -61,7 +61,7 @@ export default function walmart(html) {
 				}
 				price = $(PRICE_SELECTOR).text()?.trim();
 				if (price.toString().length > 3 && price.toString().substring(0, 3) == "Now") {
-					promotion = $(PROMOTION_SELECTOR).text()?.trim();
+					let promotion = $(PROMOTION_SELECTOR).text()?.trim();
 					if (promotion == "Reduced price") {
 						price = "Red" + price.toString().substring(3);
 					} else if (promotion == "Clearance") {
