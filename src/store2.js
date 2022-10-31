@@ -174,7 +174,10 @@ export default class Store {
 								count += 1;
 								let str = item.row;
 								if (item.info.price) {
-									let strPrice = item.info.price.toString().substr(1);
+									let strPrice = item.info.price.toString();
+									if (strPrice.substring(0, 1) == "$") {
+										strPrice = strPrice.substr(1);
+									}
 									toConsole(
 										"info",
 										strPrice

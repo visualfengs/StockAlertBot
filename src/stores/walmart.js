@@ -12,6 +12,7 @@ export default function walmart(html) {
 		const BUTTON_SELECTOR_MORESELLER = 'button[aria-label="Compare all sellers"]';
 		const SELLER_SELECTOR = 'a[data-testid="seller-name-link"]';
 		const PRICE_SELECTOR = 'div[data-testid="add-to-cart-section"] span[itemprop="price"]';
+		const PROMOTION_SELECTOR = "span.w_Fm.w_Fs.w_Fv.mt2.mr2:first";
 
 		const $ = cheerio.load(html);
 		//let title, image, seller, inventory;
@@ -59,6 +60,14 @@ export default function walmart(html) {
 					inventory = true;
 				}
 				price = $(PRICE_SELECTOR).text()?.trim();
+				if (price.toString().length > 3 && price.toString().substring(0, 3) == "Now") {
+					promotion = $(PROMOTION_SELECTOR).text()?.trim();
+					if (promotion == "Reduced price") {
+						price = "Red" + price.toString().substring(3);
+					} else if (promotion == "Clearance") {
+						price = "Cle" + price.toString().substring(3);
+					}
+				}
 			}
 		}
 
