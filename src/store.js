@@ -32,8 +32,8 @@ export default class Store {
 	*/
 	startMonitor() {
 		const __dirname = path.resolve();
-		const csvInputFilePath = path.join(__dirname, "manage_items_walmart.csv");
-		const csvOutputFilePath = path.join(__dirname, "manage_items_walmart-CHECKRESULT.csv");
+		const csvInputFilePath = path.join(__dirname, "manage_items.csv");
+		const csvOutputFilePath = path.join(__dirname, "manage_items-CHECKRESULT.csv");
 
 		var writerStream = fs.createWriteStream(csvOutputFilePath);
 		writerStream.on("error", (err) => {
