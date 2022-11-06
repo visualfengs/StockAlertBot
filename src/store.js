@@ -32,8 +32,8 @@ export default class Store {
 	*/
 	startMonitor() {
 		const __dirname = path.resolve();
-		const csvInputFilePath = path.join(__dirname, "manage_items.csv");
-		const csvOutputFilePath = path.join(__dirname, "manage_items-CHECKRESULT.csv");
+		const csvInputFilePath = path.join(__dirname, "manage_items_walmart.csv");
+		const csvOutputFilePath = path.join(__dirname, "manage_items_walmart-CHECKRESULT.csv");
 
 		var writerStream = fs.createWriteStream(csvOutputFilePath);
 		writerStream.on("error", (err) => {
@@ -52,10 +52,11 @@ export default class Store {
 					writerStream.write(row + "\r\n");
 				} else {
 					row = row.toString().trim();
+					let re = /^[1-9]\d*$/;
 					if (row.length >= 10 && row.substr(row.length - 10, 2) == "B0") {
 						let asin = row.substr(row.length - 10, 10);
 						this.addItem(new Item("https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=" + asin, row));
-					} else if (row.length >= 10 && row.substr(row.length - 10, 1) == "1") {
+					} else if (row.length >= 10 && re.test(row.substr(row.length - 10, 10))) {
 						let itemid = row.substr(row.length - 10, 10);
 						this.addItem(new Item("https://www.walmart.com/ip/" + itemid, row));
 					} else {

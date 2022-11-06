@@ -52,11 +52,12 @@ export default class Store {
 					writerStream.write(row + "\r\n");
 				} else {
 					row = row.toString().trim();
+					let re = /^[1-9]\d*$/;
 					if (row.length >= 10 && row.substr(row.length - 10, 2) == "B0") {
 						let asin = row.substr(row.length - 10, 10);
 						////this.addItem(new Item("https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=" + asin, row));
 						this.addItem(new Item("https://www.amazon.com/dp/" + asin, row)); //// sold by amazon.com
-					} else if (row.length >= 10 && row.substr(row.length - 10, 1) == "1") {
+					} else if (row.length >= 10 && re.test(row.substr(row.length - 10, 10))) {
 						let itemid = row.substr(row.length - 10, 10);
 						this.addItem(new Item("https://www.walmart.com/ip/" + itemid, row));
 					} else {
